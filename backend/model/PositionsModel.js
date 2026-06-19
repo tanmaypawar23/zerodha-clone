@@ -1,6 +1,6 @@
 const { model } = require("mongoose");
 
-import { PositionsSchema } from "../schemas/PositionsShema";
+const { PositionsSchema } = require("../schemas/PositionsSchema");
 
 const PositionsModel = model("position", PositionsSchema);
 
