@@ -3,49 +3,42 @@ import axios from "axios";
 import GeneralContext from "./GeneralContext";
 import "./BuyActionWindow.css";
 
-const BuyActionWindow = ({ uid }) => {
+const SellActionWindow = ({ uid }) => {
   const generalContext = useContext(GeneralContext);
   const [stockQuantity, setStockQuantity] = useState(1);
-  const [stockPrice, setStockPrice] = useState(0.0);
+  const [stockPrice, setStockPrice] = useState(0);
 
-  const handleBuyClick = () => {
-    axios.post("http://localhost:3002/newOrder", {
+  const handleSellClick = async () => {
+    await axios.post("http://localhost:3002/newOrder", {
       name: uid,
       qty: stockQuantity,
       price: stockPrice,
-      mode: "BUY",
+      mode: "SELL",
     });
 
-    generalContext.closeBuyWindow();
-  };
-
-  const handleCancelClick = () => {
-    generalContext.closeBuyWindow();
+    generalContext.closeSellWindow();
   };
 
   return (
-    <div className="container" id="buy-window" draggable="true">
+    <div className="container" id="buy-window">
       <div className="regular-order">
         <div className="inputs">
           <fieldset>
             <legend>Qty.</legend>
             <input
               type="number"
-              name="qty"
-              id="qty"
-              onChange={(e) => setStockQuantity(e.target.value)}
               value={stockQuantity}
+              onChange={(e) => setStockQuantity(e.target.value)}
             />
           </fieldset>
+
           <fieldset>
             <legend>Price</legend>
             <input
               type="number"
-              name="price"
-              id="price"
               step="0.05"
-              onChange={(e) => setStockPrice(e.target.value)}
               value={stockPrice}
+              onChange={(e) => setStockPrice(e.target.value)}
             />
           </fieldset>
         </div>
@@ -53,18 +46,20 @@ const BuyActionWindow = ({ uid }) => {
 
       <div className="buttons">
         <span>Margin required ₹140.65</span>
+
         <div>
           <button
-            className="btn btn-blue"
+            className="btn btn-red"
             style={{ borderRadius: "5px", border: "none" }}
-            onClick={handleBuyClick}
+            onClick={handleSellClick}
           >
-            Buy
+            Sell
           </button>
+
           <button
             className="btn btn-grey"
             style={{ borderRadius: "5px", border: "none" }}
-            onClick={handleCancelClick}
+            onClick={generalContext.closeSellWindow}
           >
             Cancel
           </button>
@@ -74,4 +69,4 @@ const BuyActionWindow = ({ uid }) => {
   );
 };
 
-export default BuyActionWindow;
+export default SellActionWindow;
