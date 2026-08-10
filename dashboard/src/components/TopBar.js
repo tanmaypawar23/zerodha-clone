@@ -1,8 +1,16 @@
 import React from "react";
-
+import { useNavigate } from "react-router-dom";
 import Menu from "./Menu";
 
 const TopBar = () => {
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("username");
+    navigate("/login");
+  };
+
   return (
     <div className="topbar-container">
       <div className="indices-container">
@@ -18,6 +26,7 @@ const TopBar = () => {
         </div>
       </div>
 
+      <button onClick={handleLogout}>Logout</button>
       <Menu />
     </div>
   );
